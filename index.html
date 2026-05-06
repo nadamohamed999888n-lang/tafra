@@ -5,73 +5,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منصة الطفرة - ميس ندى كامل</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fbff; text-align: center; padding: 20px; direction: rtl; }
-        .container { background: white; max-width: 650px; margin: 20px auto; padding: 30px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 8px solid #2196F3; }
-        h1 { color: #1a237e; margin-bottom: 10px; }
-        .admin-box { background: #e3f2fd; padding: 20px; border-radius: 15px; margin-bottom: 25px; border: 2px solid #2196F3; }
-        .btn-blue { background-color: #2196F3; color: white; padding: 10px 20px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; margin: 5px; }
-        .stage-box { display: flex; justify-content: space-around; margin: 20px 0; }
-        .stage-btn { padding: 15px; background: #eee; border-radius: 12px; cursor: pointer; width: 30%; font-weight: bold; transition: 0.3s; }
-        .stage-btn.active { background: #2196F3; color: white; }
-        input { padding: 15px; width: 85%; border-radius: 12px; border: 2px solid #ddd; font-size: 18px; margin: 15px 0; outline: none; }
-        .btn-open { background-color: #4CAF50; color: white; padding: 15px 40px; border: none; border-radius: 12px; font-size: 18px; font-weight: bold; width: 90%; cursor: pointer; }
-        #contentSection { display: none; margin-top: 30px; }
-        video { width: 100%; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        .code-result { font-size: 20px; color: #d32f2f; font-weight: bold; margin-top: 10px; display: none; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f0f7ff; text-align: center; padding: 15px; direction: rtl; }
+        .container { background: white; max-width: 500px; margin: auto; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-top: 8px solid #2196F3; }
+        h1 { color: #1a237e; font-size: 24px; margin-bottom: 20px; }
+        .main-choice { display: flex; flex-direction: column; gap: 15px; }
+        .btn { padding: 15px; border: none; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; }
+        .btn-student { background-color: #4CAF50; color: white; }
+        .btn-admin { background-color: #2196F3; color: white; margin-top: 20px; font-size: 14px; }
+        .form-group { text-align: right; margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, select { padding: 12px; width: 95%; border-radius: 10px; border: 1px solid #ddd; font-size: 16px; }
+        #registrationPage, #adminPanel, #lessonPage { display: none; }
+        .admin-box { background: #e3f2fd; padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 2px solid #2196F3; }
+        video { width: 100%; border-radius: 15px; margin-top: 15px; }
+        .code-res { color: red; font-weight: bold; margin-top: 10px; }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
 <div class="container">
     <h1>🚀 منصة الطفرة للعلوم</h1>
-    <p>مع ميس ندى كامل</p>
 
-    <div class="admin-box">
-        <p>لوحة تحكم ميس ندى (توليد الأكواد):</p>
-        <button class="btn-blue" onclick="checkAdmin(1)">أولى إعدادي</button>
-        <button class="btn-blue" onclick="checkAdmin(2)">تانية إعدادي</button>
-        <button class="btn-blue" onclick="checkAdmin(3)">تالتة إعدادي</button>
-        <div id="displayCode" class="code-result"></div>
+    <div id="startPage" class="main-choice">
+        <button class="btn btn-student" onclick="showRegistration()">أنا طالب (تسجيل دخول)</button>
+        <button class="btn btn-admin" onclick="accessAdmin()">دخول الآدمن (ميس ندى)</button>
     </div>
 
-    <hr>
-    <h3>اختر مرحلتك الدراسية:</h3>
-    <div class="stage-box">
-        <div class="stage-btn" id="b1" onclick="selectStage(1)">أولى إعدادي</div>
-        <div class="stage-btn" id="b2" onclick="selectStage(2)">تانية إعدادي</div>
-        <div class="stage-btn" id="b3" onclick="selectStage(3)">تالتة إعدادي</div>
+    <div id="registrationPage">
+        <h3>تسجيل بيانات الطالب</h3>
+        <div class="form-group">
+            <label>الاسم بالكامل:</label>
+            <input type="text" id="stuName" placeholder="اكتب اسمك الثلاثي">
+        </div>
+        <div class="form-group">
+            <label>المرحلة الدراسية:</label>
+            <select id="stuStage">
+                <option value="1">أولى إعدادي</option>
+                <option value="2">تانية إعدادي</option>
+                <option value="3">تالتة إعدادي</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>كود الحصة:</label>
+            <input type="text" id="stuCode" placeholder="ادخل الكود المستلم من الميس">
+        </div>
+        <button class="btn btn-student" onclick="validateStudent()">دخول للحصة 🔬</button>
+        <button style="margin-top:10px; background:none; border:none; color:blue; cursor:pointer;" onclick="goBack()">رجوع</button>
     </div>
 
-    <div id="loginArea">
-        <input type="text" id="studentInput" placeholder="اكتب كود الحصة هنا..">
-        <button class="btn-open" onclick="validate()">فتح حصتنا النهاردة 🔬</button>
+    <div id="adminPanel">
+        <div class="admin-box">
+            <p>لوحة التحكم (توليد أكواد)</p>
+            <button class="btn-admin" style="width:30%" onclick="generateCode(1)">أولى</button>
+            <button class="btn-admin" style="width:30%" onclick="generateCode(2)">تانية</button>
+            <button class="btn-admin" style="width:30%" onclick="generateCode(3)">تالتة</button>
+            <div id="displayCode" class="code-res"></div>
+        </div>
+        <button class="btn" style="background:#eee" onclick="goBack()">خروج</button>
     </div>
 
-    <div id="contentSection">
-        <h2 style="color: #2196F3;">🎬 حصتنا النهاردة</h2>
+    <div id="lessonPage">
+        <h2 id="lessonTitle" style="color: #2196F3;">🎬 حصتنا النهاردة</h2>
         <video id="myVideo" controls controlsList="nodownload">
             <source id="videoSource" src="" type="video/mp4">
-            متصفحك لا يدعم تشغيل الفيديو.
         </video>
+        <button class="btn" style="margin-top:20px; background:#ddd" onclick="location.reload()">الخروج من الحصة</button>
     </div>
 </div>
 
 <script>
-    let currentStage = 1;
     let allCodes = JSON.parse(localStorage.getItem('allStagesCodes')) || { 1: ['Admin1'], 2: ['Admin2'], 3: ['Admin3'] };
 
-    function selectStage(s) {
-        currentStage = s;
-        document.querySelectorAll('.stage-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('b' + s).classList.add('active');
-        document.getElementById('contentSection').style.display = 'none';
-        document.getElementById('loginArea').style.display = 'block';
+    function showRegistration() {
+        document.getElementById('startPage').style.display = 'none';
+        document.getElementById('registrationPage').style.display = 'block';
     }
 
-    function checkAdmin(s) {
-        let pass = prompt("كلمة السر لتوليد الكود:");
-        if (pass === "Nada2026") {
-            generateCode(s);
+    function goBack() {
+        document.getElementById('registrationPage').style.display = 'none';
+        document.getElementById('adminPanel').style.display = 'none';
+        document.getElementById('startPage').style.display = 'flex';
+    }
+
+    function accessAdmin() {
+        let pass = prompt("ادخلي كلمة سر الآدمن:");
+        if (pass === "1332005k") {
+            document.getElementById('startPage').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
         } else {
             alert("كلمة السر خطأ!");
         }
@@ -81,23 +101,31 @@
         const c = 'Prep' + s + '-' + Math.random().toString(36).substr(2, 4).toUpperCase();
         allCodes[s].push(c);
         localStorage.setItem('allStagesCodes', JSON.stringify(allCodes));
-        const res = document.getElementById('displayCode');
-        res.innerText = "كود " + (s==1?'أولى':s==2?'تانية':'تالتة') + " الجديد: " + c;
-        res.style.display = 'block';
+        document.getElementById('displayCode').innerText = "كود جديد: " + c;
+        document.getElementById('displayCode').style.display = 'block';
     }
 
-    function validate() {
-        const val = document.getElementById('studentInput').value.trim();
-        if (allCodes[currentStage].includes(val)) {
-            document.getElementById('loginArea').style.display = 'none';
-            document.getElementById('contentSection').style.display = 'block';
-            document.getElementById('videoSource').src = "lesson" + currentStage + ".mp4";
+    function validateStudent() {
+        const name = document.getElementById('stuName').value.trim();
+        const stage = document.getElementById('stuStage').value;
+        const code = document.getElementById('stuCode').value.trim();
+
+        if (name === "" || code === "") {
+            alert("من فضلك كمل بياناتك الأول!");
+            return;
+        }
+
+        if (allCodes[stage].includes(code)) {
+            // هنا ممكن مستقبلاً تحفظي بيانات الطالب في شيت
+            alert("أهلاً يا " + name + ".. جاري فتح الحصة");
+            document.getElementById('registrationPage').style.display = 'none';
+            document.getElementById('lessonPage').style.display = 'block';
+            document.getElementById('videoSource').src = "lesson" + stage + ".mp4";
             document.getElementById('myVideo').load();
         } else {
             alert("الكود غير صحيح لهذه المرحلة!");
         }
     }
-    selectStage(1);
 </script>
 </body>
 </html>
