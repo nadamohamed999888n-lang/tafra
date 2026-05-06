@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>رفع الواجب - الطفرة أونلاين</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f9f4; text-align: center; padding: 20px; }
+        .upload-box { 
+            background: white; max-width: 500px; margin: 50px auto; padding: 30px; 
+            border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            border: 2px dashed #2e8b57;
+        }
+        h2 { color: #2e8b57; }
+        input[type="file"] { margin: 20px 0; padding: 10px; }
+        .btn-upload { 
+            background-color: #2e8b57; color: white; padding: 15px 30px; 
+            border: none; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%;
+        }
+        .btn-upload:hover { background-color: #1e5d3a; }
+    </style>
+</head>
+<body>
+
+    <div class="upload-box">
+        <h2>مركز استلام الواجبات 📝</h2>
+        <p>يا بطل، صور واجبك وارفعه هنا عشان ميس ندى تصححه لك.</p>
+        
+        <form>
+            <label>اسمك بالكامل:</label><br>
+            <input type="text" style="width: 90%; padding: 10px; margin: 10px 0;"><br>
+            
+            <label>اختر صورة الواجب:</label><br>
+            <input type="file" accept="image/*"><br>
+
+            <button type="button" class="btn-upload" onclick="alert('تم استلام واجبك بنجاح يا بطل! سيتم التصحيح قريباً.')">
+                إرسال الواجب لميس ندى
+            </button>
+        </form>
+    </div>
+
+    <a href="index.html" style="color: #2e8b57; text-decoration: none;">العودة للرئيسية</a>
+
+</body>
+</html>
