@@ -20,22 +20,21 @@
         .code-result { font-size: 20px; color: #d32f2f; font-weight: bold; margin-top: 10px; display: none; }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
 <div class="container">
     <h1>🚀 منصة الطفرة للعلوم</h1>
     <p>مع ميس ندى كامل</p>
 
     <div class="admin-box">
-        <p>توليد أكواد:</p>
-        <button class="btn-blue" onclick="generateCode(1)">أولى إعدادي</button>
-        <button class="btn-blue" onclick="generateCode(2)">تانية إعدادي</button>
-        <button class="btn-blue" onclick="generateCode(3)">تالتة إعدادي</button>
+        <p>لوحة تحكم ميس ندى (توليد الأكواد):</p>
+        <button class="btn-blue" onclick="checkAdmin(1)">أولى إعدادي</button>
+        <button class="btn-blue" onclick="checkAdmin(2)">تانية إعدادي</button>
+        <button class="btn-blue" onclick="checkAdmin(3)">تالتة إعدادي</button>
         <div id="displayCode" class="code-result"></div>
     </div>
 
     <hr>
-
     <h3>اختر مرحلتك الدراسية:</h3>
     <div class="stage-box">
         <div class="stage-btn" id="b1" onclick="selectStage(1)">أولى إعدادي</div>
@@ -49,16 +48,16 @@
     </div>
 
     <div id="contentSection">
-        <h2 id="lessonTitle" style="color: #2196F3;">🎬 حصتنا النهاردة</h2>
+        <h2 style="color: #2196F3;">🎬 حصتنا النهاردة</h2>
         <video id="myVideo" controls controlsList="nodownload">
             <source id="videoSource" src="" type="video/mp4">
+            متصفحك لا يدعم تشغيل الفيديو.
         </video>
     </div>
 </div>
 
 <script>
     let currentStage = 1;
-    // تخزين الأكواد لكل مرحلة
     let allCodes = JSON.parse(localStorage.getItem('allStagesCodes')) || { 1: ['Admin1'], 2: ['Admin2'], 3: ['Admin3'] };
 
     function selectStage(s) {
@@ -69,13 +68,21 @@
         document.getElementById('loginArea').style.display = 'block';
     }
 
+    function checkAdmin(s) {
+        let pass = prompt("كلمة السر لتوليد الكود:");
+        if (pass === "Nada2026") {
+            generateCode(s);
+        } else {
+            alert("كلمة السر خطأ!");
+        }
+    }
+
     function generateCode(s) {
-        const prefix = 'Prep' + s + '-';
-        const c = prefix + Math.random().toString(36).substr(2, 4).toUpperCase();
+        const c = 'Prep' + s + '-' + Math.random().toString(36).substr(2, 4).toUpperCase();
         allCodes[s].push(c);
         localStorage.setItem('allStagesCodes', JSON.stringify(allCodes));
         const res = document.getElementById('displayCode');
-        res.innerText = "كود " + (s==1?'أولى':s==2?'تانية':'تالتة') + ": " + c;
+        res.innerText = "كود " + (s==1?'أولى':s==2?'تانية':'تالتة') + " الجديد: " + c;
         res.style.display = 'block';
     }
 
@@ -84,20 +91,13 @@
         if (allCodes[currentStage].includes(val)) {
             document.getElementById('loginArea').style.display = 'none';
             document.getElementById('contentSection').style.display = 'block';
-            
-            // تحديد الفيديو حسب المرحلة
-            const video = document.getElementById('myVideo');
-            const source = document.getElementById('videoSource');
-            source.src = "lesson" + currentStage + ".mp4";
-            video.load(); // تحديث مشغل الفيديو
+            document.getElementById('videoSource').src = "lesson" + currentStage + ".mp4";
+            document.getElementById('myVideo').load();
         } else {
             alert("الكود غير صحيح لهذه المرحلة!");
         }
     }
-    
-    // تفعيل أولى إعدادي تلقائياً عند الفتح
     selectStage(1);
 </script>
-
 </body>
 </html>
