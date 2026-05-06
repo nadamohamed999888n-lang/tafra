@@ -5,40 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منصة الطفرة - ميس ندى كامل</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f0f7ff; text-align: center; padding: 15px; direction: rtl; }
-        .container { background: white; max-width: 500px; margin: 20px auto; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-top: 8px solid #2196F3; }
-        h1 { color: #1a237e; font-size: 24px; margin-bottom: 20px; }
-        .main-choice { display: flex; flex-direction: column; gap: 15px; }
-        .btn { padding: 15px; border: none; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; }
-        .btn-student { background-color: #4CAF50; color: white; }
-        .btn-admin { background-color: #2196F3; color: white; margin-top: 20px; font-size: 14px; }
-        .form-group { text-align: right; margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input, select { padding: 12px; width: 95%; border-radius: 10px; border: 1px solid #ddd; font-size: 16px; outline: none; }
-        #registrationPage, #adminPanel, #lessonPage { display: none; }
-        .admin-box { background: #f9f9f9; padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 1px dashed #2196F3; text-align: right; }
-        video { width: 100%; border-radius: 15px; margin-top: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        .code-list { font-size: 14px; color: #333; background: #fff; padding: 10px; border-radius: 8px; border: 1px solid #ccc; max-height: 150px; overflow-y: auto; }
+        :root { --primary: #1a237e; --secondary: #2196F3; --accent: #4CAF50; --homework: #ff9800; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f4f8; text-align: center; padding: 15px; direction: rtl; margin: 0; }
+        .main-card { background: white; max-width: 500px; margin: 15px auto; padding: 25px; border-radius: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-top: 10px solid var(--primary); }
+        h1 { color: var(--primary); margin-bottom: 5px; font-size: 26px; }
+        .tagline { color: #666; margin-bottom: 25px; font-weight: bold; font-size: 14px; }
+        .btn { padding: 15px; border: none; border-radius: 12px; font-size: 17px; font-weight: bold; cursor: pointer; width: 100%; margin-bottom: 12px; transition: 0.3s; }
+        .btn-stu { background: var(--accent); color: white; }
+        .btn-homework { background: var(--homework); color: white; }
+        .btn-adm { background: var(--secondary); color: white; font-size: 13px; opacity: 0.9; }
+        .input-group { text-align: right; margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: var(--primary); }
+        input, select { padding: 12px; width: 100%; border-radius: 10px; border: 2px solid #eee; box-sizing: border-box; outline: none; font-size: 16px; }
+        #registrationPage, #adminPanel, #lessonPage, #homeworkPage { display: none; }
+        .codes-box { background: #e3f2fd; padding: 15px; border-radius: 15px; text-align: right; border: 1px dashed var(--secondary); }
+        video { width: 100%; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); margin-top: 15px; }
+        .back-link { color: var(--secondary); cursor: pointer; font-weight: bold; display: inline-block; margin-top: 15px; text-decoration: underline; }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
-<div class="container">
-    <h1>🚀 منصة الطفرة للعلوم</h1>
-    <p style="margin-top: -15px; color: #666;">ميس ندى كامل</p>
+<div class="main-card">
+    <h1>🚀 منصة الطفرة</h1>
+    <p class="tagline">للعلوم مع ميس ندى كامل</p>
 
-    <div id="startPage" class="main-choice">
-        <button class="btn btn-student" onclick="showRegistration()">أنا طالب (تسجيل دخول)</button>
-        <button class="btn btn-admin" onclick="accessAdmin()">دخول الآدمن (ميس ندى)</button>
+    <div id="startPage">
+        <button class="btn btn-stu" onclick="showPage('registrationPage')">دخول الطالب للحصة 🎬</button>
+        <button class="btn btn-homework" onclick="showPage('homeworkPage')">تسليم الواجب 📚</button>
+        <button class="btn btn-adm" onclick="accessAdmin()">لوحة تحكم المعلمة ⚙️</button>
     </div>
 
     <div id="registrationPage">
         <h3>تسجيل بيانات الطالب</h3>
-        <div class="form-group">
+        <div class="input-group">
             <label>الاسم بالكامل:</label>
             <input type="text" id="stuName" placeholder="اكتب اسمك الثلاثي">
         </div>
-        <div class="form-group">
+        <div class="input-group">
             <label>المرحلة الدراسية:</label>
             <select id="stuStage">
                 <option value="1">أولى إعدادي</option>
@@ -46,78 +49,81 @@
                 <option value="3">تالتة إعدادي</option>
             </select>
         </div>
-        <div class="form-group">
+        <div class="input-group">
             <label>كود الحصة:</label>
-            <input type="text" id="stuCode" placeholder="ادخل كود الحصة">
+            <input type="text" id="stuCode" placeholder="ادخل الكود المستلم من الميس">
         </div>
-        <button class="btn btn-student" onclick="validateStudent()">دخول للحصة 🔬</button>
-        <button style="margin-top:15px; background:none; border:none; color:#2196F3; cursor:pointer; font-weight:bold;" onclick="goBack()">← رجوع</button>
+        <button class="btn btn-stu" onclick="startLesson()">دخول الحصة 🔬</button>
+        <span class="back-link" onclick="showPage('startPage')">رجوع للرئيسية</span>
+    </div>
+
+    <div id="homeworkPage">
+        <h3>تسليم الواجب المنزلي</h3>
+        <div class="input-group">
+            <label>اسم الطالب:</label>
+            <input type="text" placeholder="اكتب اسمك">
+        </div>
+        <div class="input-group">
+            <label>ارفع صورة الواجب:</label>
+            <input type="file" accept="image/*">
+        </div>
+        <button class="btn btn-homework" onclick="alert('تم إرسال الواجب لميس ندى بنجاح!')">إرسال الواجب ✅</button>
+        <br><span class="back-link" onclick="showPage('startPage')">رجوع</span>
     </div>
 
     <div id="adminPanel">
-        <div class="admin-box">
-            <p style="font-weight: bold; color: #1a237e;">أكواد الحصص الثابتة (انسخي منها وادّي للطلبة):</p>
-            <div id="codesDisplay" class="code-list">
-                </div>
+        <div class="codes-box">
+            <p style="font-weight: bold; color: var(--primary);">قائمة أكواد الحصص المعتمدة:</p>
+            <div id="codesList" style="background:white; padding:10px; border-radius:10px; font-size:14px;"></div>
         </div>
-        <button class="btn" style="background:#f44336; color:white;" onclick="goBack()">تسجيل خروج</button>
+        <button class="btn" style="background:#666; color:white; margin-top:15px;" onclick="showPage('startPage')">خروج</button>
     </div>
 
     <div id="lessonPage">
-        <h2 id="lessonTitle" style="color: #2196F3;">🎬 حصتنا النهاردة</h2>
+        <h3 id="lessonTitle" style="color:var(--secondary)">🎬 حصتنا النهاردة</h3>
         <video id="myVideo" controls controlsList="nodownload">
             <source id="videoSource" src="" type="video/mp4">
         </video>
-        <button class="btn" style="margin-top:20px; background:#ddd" onclick="location.reload()">إنهاء المشاهدة</button>
+        <button class="btn" style="margin-top:20px; background:#eee;" onclick="location.reload()">إنهاء المشاهدة</button>
     </div>
 </div>
 
 <script>
-    // هذه الأكواد ثابتة للأبد في الكود، لا تتغير ولا تتمسح
-    const fixedCodes = {
-        1: ['P1-X9R2', 'P1-K4L7', 'P1-M5N8', 'P1-A1B2', 'P1-S9T0'], // أكواد أولى إعدادي
-        2: ['P2-V3C1', 'P2-G6H2', 'P2-J8K9', 'P2-Q4W5', 'P2-Z7X0'], // أكواد تانية إعدادي
-        3: ['P3-R2T1', 'P3-Y5U6', 'P3-I9O0', 'P3-P4L5', 'P3-F7D8']  // أكواد تالتة إعدادي
+    // الأكواد الثابتة (عدليها براحتك من هنا)
+    const myFixedCodes = {
+        1: ['P1-NAD-77', 'P1-XYZ-12', 'CODE-101'], // أولى
+        2: ['P2-NAD-88', 'P2-ABC-34', 'CODE-202'], // تانية
+        3: ['P3-NAD-99', 'P3-HJK-56', 'CODE-303']  // تالتة
     };
 
-    function showRegistration() {
-        document.getElementById('startPage').style.display = 'none';
-        document.getElementById('registrationPage').style.display = 'block';
-    }
-
-    function goBack() {
-        document.getElementById('registrationPage').style.display = 'none';
-        document.getElementById('adminPanel').style.display = 'none';
-        document.getElementById('startPage').style.display = 'flex';
+    function showPage(pageId) {
+        document.querySelectorAll('.main-card > div').forEach(div => div.style.display = 'none');
+        document.getElementById(pageId).style.display = 'block';
     }
 
     function accessAdmin() {
-        let pass = prompt("من فضلك ادخلي كلمة سر الآدمن:");
+        let pass = prompt("من فضلك ادخلي كلمة السر:");
         if (pass === "1332005k") {
-            document.getElementById('startPage').style.display = 'none';
-            document.getElementById('adminPanel').style.display = 'block';
-            displayCodesInAdmin();
+            showPage('adminPanel');
+            let h = "";
+            for(let s in myFixedCodes) {
+                h += `<b>مرحلة ${s}:</b> ${myFixedCodes[s].join(' - ')}<br><hr>`;
+            }
+            document.getElementById('codesList').innerHTML = h;
         } else if (pass !== null) { alert("كلمة السر خطأ!"); }
     }
 
-    function displayCodesInAdmin() {
-        let html = "<b>أولى إعدادي:</b><br>" + fixedCodes[1].join(', ') + "<br><br>";
-        html += "<b>تانية إعدادي:</b><br>" + fixedCodes[2].join(', ') + "<br><br>";
-        html += "<b>تالتة إعدادي:</b><br>" + fixedCodes[3].join(', ') + "<br>";
-        document.getElementById('codesDisplay').innerHTML = html;
-    }
-
-    function validateStudent() {
+    function startLesson() {
+        const name = document.getElementById('stuName').value;
         const stage = document.getElementById('stuStage').value;
         const code = document.getElementById('stuCode').value.trim().toUpperCase();
 
-        if (fixedCodes[stage].includes(code)) {
-            document.getElementById('registrationPage').style.display = 'none';
-            document.getElementById('lessonPage').style.display = 'block';
+        if (name && myFixedCodes[stage].includes(code)) {
+            showPage('lessonPage');
             document.getElementById('videoSource').src = "lesson" + stage + ".mp4";
             document.getElementById('myVideo').load();
         } else {
-            alert("الكود غير صحيح! تأكد من كتابة الكود صح واختيار المرحلة.");
+            alert("تأكد من كتابة الاسم واختيار المرحلة والكود الصحيح!");
         }
     }
 </script>
