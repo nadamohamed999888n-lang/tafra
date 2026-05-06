@@ -5,63 +5,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منصة الطفرة - ميس ندى كامل</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma; background-color: #f8fbff; text-align: center; padding: 20px; direction: rtl; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fbff; text-align: center; padding: 20px; direction: rtl; }
         .container { background: white; max-width: 650px; margin: 20px auto; padding: 30px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 8px solid #2196F3; }
         h1 { color: #1a237e; margin-bottom: 5px; }
-        .admin-box { background: #e3f2fd; padding: 15px; border-radius: 15px; margin-bottom: 25px; border: 1px solid #bbdefb; }
-        .btn-generate { background-color: #2196F3; color: white; padding: 12px 25px; border: none; border-radius: 10px; font-size: 17px; cursor: pointer; font-weight: bold; }
-        .code-result { font-size: 22px; color: #d32f2f; font-weight: bold; margin-top: 10px; display: none; }
-        input { padding: 15px; width: 80%; border-radius: 12px; border: 2px solid #ddd; font-size: 18px; margin: 15px 0; outline: none; }
-        .btn-open { background-color: #4CAF50; color: white; padding: 15px 40px; border: none; border-radius: 12px; font-size: 18px; cursor: pointer; font-weight: bold; width: 85%; }
-        #videoSection { display: none; margin-top: 30px; }
-        video { width: 100%; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        
+        /* المربع الأزرق لتوليد الأكواد (خاص بميس ندى) */
+        .admin-box { background: #e3f2fd; padding: 20px; border-radius: 15px; margin-bottom: 25px; border: 2px solid #2196F3; }
+        .btn-generate { background-color: #2196F3; color: white; padding: 12px 25px; border: none; border-radius: 10px; font-size: 17px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn-generate:hover { background-color: #1976D2; }
+        .code-result { font-size: 22px; color: #d32f2f; font-weight: bold; margin-top: 15px; padding: 10px; border: 1px dashed #d32f2f; border-radius: 10px; display: none; }
+        
+        /* منطقة الطالب */
+        input { padding: 15px; width: 85%; border-radius: 12px; border: 2px solid #ddd; font-size: 18px; margin: 15px 0; outline: none; }
+        .btn-open { background-color: #4CAF50; color: white; padding: 15px 40px; border: none; border-radius: 12px; font-size: 18px; cursor: pointer; font-weight: bold; width: 90%; }
+        
+        /* سيكشن المحتوى */
+        #contentSection { display: none; margin-top: 30px; animation: fadeIn 0.8s; }
+        video { width: 100%; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); background-color: #000; }
+        .download-btn { display: inline-block; margin-top: 20px; background-color: #ff9800; color: white; padding: 12px 30px; text-decoration: none; border-radius: 10px; font-weight: bold; font-size: 18px; }
+        
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h1>🚀 منصة الطفرة</h1>
-    <p style="color: #666;">مع ميس ندى كامل</p>
+    <p style="color: #666; margin-bottom: 20px;">مع ميس ندى كامل</p>
 
     <div class="admin-box">
         <button class="btn-generate" onclick="generateNewCode()">✨ توليد كود جديد للطالب</button>
         <div id="displayCode" class="code-result"></div>
     </div>
 
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 25px 0;">
+
     <div id="loginArea">
-        <h3>ادخل كود الحصة</h3>
+        <h3>ادخل كود الحصة للمشاهدة والتحميل</h3>
         <input type="text" id="studentInput" placeholder="اكتب الكود هنا..">
         <br>
         <button class="btn-open" onclick="validateCode()">فتح الحصة 🔬</button>
     </div>
 
-    <div id="videoSection">
+    <div id="contentSection">
         <h2 style="color: #2196F3; margin-bottom: 15px;">🎬 حصتنا النهاردة</h2>
+        
         <video id="myVideo" controls controlsList="nodownload">
             <source src="lesson.mp4" type="video/mp4">
             متصفحك لا يدعم تشغيل الفيديو.
         </video>
+        
+        <br>
+        <a href="lesson.mp4" download class="download-btn">⬇️ تحميل الحصة على جهازك</a>
     </div>
 </div>
 
 <script>
-    let codesList = JSON.parse(localStorage.getItem('savedCodes')) || ['Admin_Nada'];
+    // تخزين الأكواد في ذاكرة المتصفح
+    let codesList = JSON.parse(localStorage.getItem('savedCodes')) || ['Admin_Nada', 'Tafra-2026'];
 
     function generateNewCode() {
+        // توليد كود عشوائي يبدأ بـ n/
         const randomCode = 'n/' + Math.random().toString(36).substr(2, 5).toUpperCase();
         codesList.push(randomCode);
         localStorage.setItem('savedCodes', JSON.stringify(codesList));
-        document.getElementById('displayCode').innerText = "كود الطالب: " + randomCode;
-        document.getElementById('displayCode').style.display = 'block';
+        
+        const res = document.getElementById('displayCode');
+        res.innerText = "كود الطالب الجديد: " + randomCode;
+        res.style.display = 'block';
     }
 
     function validateCode() {
         const val = document.getElementById('studentInput').value.trim();
         if (codesList.includes(val)) {
             document.getElementById('loginArea').style.display = 'none';
-            document.getElementById('videoSection').style.display = 'block';
+            document.getElementById('contentSection').style.display = 'block';
         } else {
-            alert("الكود غير صحيح!");
+            alert("عفواً يا بطل.. الكود غير صحيح! راجع ميس ندى.");
         }
     }
 </script>
