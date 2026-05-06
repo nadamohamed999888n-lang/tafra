@@ -13,14 +13,15 @@
         .btn { padding: 15px; border: none; border-radius: 12px; font-size: 17px; font-weight: bold; cursor: pointer; width: 100%; margin-bottom: 12px; transition: 0.3s; }
         .btn-stu { background: var(--accent); color: white; }
         .btn-homework { background: var(--homework); color: white; }
-        .btn-adm { background: var(--secondary); color: white; font-size: 13px; opacity: 0.9; }
+        .btn-gen { background: var(--secondary); color: white; padding: 10px; font-size: 14px; width: 30%; margin: 5px; }
         .input-group { text-align: right; margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; font-weight: bold; color: var(--primary); }
-        input, select { padding: 12px; width: 100%; border-radius: 10px; border: 2px solid #eee; box-sizing: border-box; outline: none; font-size: 16px; }
+        input, select { padding: 12px; width: 100%; border-radius: 10px; border: 2px solid #eee; box-sizing: border-box; outline: none; }
         #registrationPage, #adminPanel, #lessonPage, #homeworkPage { display: none; }
-        .codes-box { background: #e3f2fd; padding: 15px; border-radius: 15px; text-align: right; border: 1px dashed var(--secondary); }
+        .admin-box { background: #e3f2fd; padding: 15px; border-radius: 15px; border: 2px solid var(--secondary); margin-bottom: 15px; }
         video { width: 100%; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); margin-top: 15px; }
-        .back-link { color: var(--secondary); cursor: pointer; font-weight: bold; display: inline-block; margin-top: 15px; text-decoration: underline; }
+        .code-display { font-size: 18px; color: #d32f2f; font-weight: bold; margin-top: 10px; background: white; padding: 5px; border-radius: 5px; }
+        .back-link { color: var(--secondary); cursor: pointer; font-weight: bold; display: inline-block; margin-top: 15px; }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -30,15 +31,14 @@
     <p class="tagline">للعلوم مع ميس ندى كامل</p>
 
     <div id="startPage">
-        <button class="btn btn-stu" onclick="showPage('registrationPage')">دخول الطالب للحصة 🎬</button>
+        <button class="btn btn-stu" onclick="showPage('registrationPage')">دخول الطالب 📝</button>
         <button class="btn btn-homework" onclick="showPage('homeworkPage')">تسليم الواجب 📚</button>
-        <button class="btn btn-adm" onclick="accessAdmin()">لوحة تحكم المعلمة ⚙️</button>
+        <button class="btn" style="background:#666; color:white;" onclick="accessAdmin()">لوحة التحكم (توليد الأكواد) ⚙️</button>
     </div>
 
     <div id="registrationPage">
-        <h3>تسجيل بيانات الطالب</h3>
         <div class="input-group">
-            <label>الاسم بالكامل:</label>
+            <label>اسم الطالب:</label>
             <input type="text" id="stuName" placeholder="اكتب اسمك الثلاثي">
         </div>
         <div class="input-group">
@@ -51,66 +51,58 @@
         </div>
         <div class="input-group">
             <label>كود الحصة:</label>
-            <input type="text" id="stuCode" placeholder="ادخل الكود المستلم من الميس">
+            <input type="text" id="stuCode" placeholder="ادخل الكود">
         </div>
-        <button class="btn btn-stu" onclick="startLesson()">دخول الحصة 🔬</button>
-        <span class="back-link" onclick="showPage('startPage')">رجوع للرئيسية</span>
+        <button class="btn btn-stu" onclick="startLesson()">مشاهدة الحصة</button>
+        <span class="back-link" onclick="showPage('startPage')">رجوع</span>
     </div>
 
     <div id="homeworkPage">
-        <h3>تسليم الواجب المنزلي</h3>
-        <div class="input-group">
-            <label>اسم الطالب:</label>
-            <input type="text" placeholder="اكتب اسمك">
-        </div>
-        <div class="input-group">
-            <label>ارفع صورة الواجب:</label>
-            <input type="file" accept="image/*">
-        </div>
-        <button class="btn btn-homework" onclick="alert('تم إرسال الواجب لميس ندى بنجاح!')">إرسال الواجب ✅</button>
-        <br><span class="back-link" onclick="showPage('startPage')">رجوع</span>
+        <h3>رفع الواجب</h3>
+        <input type="file" style="margin-bottom:10px;">
+        <button class="btn btn-homework" onclick="alert('تم الإرسال!')">إرسال ✅</button>
+        <span class="back-link" onclick="showPage('startPage')">رجوع</span>
     </div>
 
     <div id="adminPanel">
-        <div class="codes-box">
-            <p style="font-weight: bold; color: var(--primary);">قائمة أكواد الحصص المعتمدة:</p>
-            <div id="codesList" style="background:white; padding:10px; border-radius:10px; font-size:14px;"></div>
+        <div class="admin-box">
+            <p style="font-weight: bold;">توليد أكواد جديدة:</p>
+            <button class="btn-gen" onclick="generateCode(1)">أولى</button>
+            <button class="btn-gen" onclick="generateCode(2)">تانية</button>
+            <button class="btn-gen" onclick="generateCode(3)">تالتة</button>
+            <div id="newCode" class="code-display" style="display:none;"></div>
         </div>
-        <button class="btn" style="background:#666; color:white; margin-top:15px;" onclick="showPage('startPage')">خروج</button>
+        <button class="btn" style="background:#444; color:white;" onclick="showPage('startPage')">خروج</button>
     </div>
 
     <div id="lessonPage">
-        <h3 id="lessonTitle" style="color:var(--secondary)">🎬 حصتنا النهاردة</h3>
         <video id="myVideo" controls controlsList="nodownload">
             <source id="videoSource" src="" type="video/mp4">
         </video>
-        <button class="btn" style="margin-top:20px; background:#eee;" onclick="location.reload()">إنهاء المشاهدة</button>
+        <button class="btn" style="margin-top:20px; background:#eee;" onclick="location.reload()">خروج</button>
     </div>
 </div>
 
 <script>
-    // الأكواد الثابتة (عدليها براحتك من هنا)
-    const myFixedCodes = {
-        1: ['P1-NAD-77', 'P1-XYZ-12', 'CODE-101'], // أولى
-        2: ['P2-NAD-88', 'P2-ABC-34', 'CODE-202'], // تانية
-        3: ['P3-NAD-99', 'P3-HJK-56', 'CODE-303']  // تالتة
-    };
+    // نظام حفظ وتوليد الأكواد
+    let allCodes = JSON.parse(localStorage.getItem('savedCodes')) || { 1: ['N1'], 2: ['N2'], 3: ['N3'] };
 
-    function showPage(pageId) {
+    function showPage(p) {
         document.querySelectorAll('.main-card > div').forEach(div => div.style.display = 'none');
-        document.getElementById(pageId).style.display = 'block';
+        document.getElementById(p).style.display = 'block';
     }
 
     function accessAdmin() {
-        let pass = prompt("من فضلك ادخلي كلمة السر:");
-        if (pass === "1332005k") {
-            showPage('adminPanel');
-            let h = "";
-            for(let s in myFixedCodes) {
-                h += `<b>مرحلة ${s}:</b> ${myFixedCodes[s].join(' - ')}<br><hr>`;
-            }
-            document.getElementById('codesList').innerHTML = h;
-        } else if (pass !== null) { alert("كلمة السر خطأ!"); }
+        let p = prompt("الباسورد:");
+        if (p === "1332005k") showPage('adminPanel');
+    }
+
+    function generateCode(s) {
+        const c = 'TAFRA-' + s + '-' + Math.random().toString(36).substr(2, 4).toUpperCase();
+        allCodes[s].push(c);
+        localStorage.setItem('savedCodes', JSON.stringify(allCodes));
+        document.getElementById('newCode').innerText = "كود جديد: " + c;
+        document.getElementById('newCode').style.display = 'block';
     }
 
     function startLesson() {
@@ -118,13 +110,11 @@
         const stage = document.getElementById('stuStage').value;
         const code = document.getElementById('stuCode').value.trim().toUpperCase();
 
-        if (name && myFixedCodes[stage].includes(code)) {
+        if (name && allCodes[stage].includes(code)) {
             showPage('lessonPage');
             document.getElementById('videoSource').src = "lesson" + stage + ".mp4";
             document.getElementById('myVideo').load();
-        } else {
-            alert("تأكد من كتابة الاسم واختيار المرحلة والكود الصحيح!");
-        }
+        } else { alert("الكود خطأ!"); }
     }
 </script>
 </body>
